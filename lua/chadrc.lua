@@ -5,7 +5,7 @@
 local M = {}
 
 M.ui = {
-	theme = "gatekeeper",
+	theme = "github_dark",
   transparency = true,
   statusline = {
       theme = "default",

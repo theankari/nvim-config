@@ -6,7 +6,7 @@ local capabilities = require("nvchad.configs.lspconfig").capabilities
 local lspconfig = require "lspconfig"
 
 local servers =
-  { "gopls", "html", "cssls", "tsserver", "terraformls", "helm_ls", "yamlls", "jsonls", "ansiblels", "pylsp" }
+  { "gopls", "html", "cssls", "tsserver", "terraformls", "jsonls", "ansiblels", "pylsp", "yamlls" }
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
@@ -22,4 +22,14 @@ lspconfig.tsserver.setup {
   on_attach = on_attach,
   on_init = on_init,
   capabilities = capabilities,
+}
+
+lspconfig.helm_ls.setup {
+  settings = {
+    ['helm-ls'] = {
+      yamlls = {
+        path = "yaml-language-server",
+      }
+    }
+  }
 }

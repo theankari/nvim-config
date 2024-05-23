@@ -6,6 +6,11 @@ return {
       require "configs.conform"
     end,
   },
+  { -- This needs to be loaded before the lspserver
+    "towolf/vim-helm",
+    lazy = false,
+    ft = "helm"
+  },
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -48,6 +53,8 @@ return {
         "tsx",
         "c",
         "yaml",
+        "helm",
+        "gotmpl",
         "json",
         "markdown",
         "markdown_inline",
