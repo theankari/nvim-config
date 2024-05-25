@@ -22,3 +22,10 @@ end, { desc = "Move to prev buffer" })
 map("n", "<A-k>", function()
   require("nvchad.tabufline").next()
 end, { desc = "Move to next buffer" })
+
+
+-- pane switching
+map("n", "<C-h>", ":TmuxNavigateLeft<CR>")
+map("n", "<C-j>", ":TmuxNavigateDown<CR>")
+map("n", "<C-k>", ":TmuxNavigateUp<CR>")
+map("n", "<C-l>", ":TmuxNavigateRight<CR>")
