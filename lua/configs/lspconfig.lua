@@ -6,7 +6,7 @@ local capabilities = require("nvchad.configs.lspconfig").capabilities
 local lspconfig = require "lspconfig"
 
 local servers =
-  { "gopls", "html", "cssls", "tsserver", "terraformls", "jsonls", "ansiblels", "pylsp", "yamlls" }
+  { "gopls", "html", "cssls", "tsserver", "terraformls", "jsonls", "ansiblels", "yamlls", "ruff" }
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do

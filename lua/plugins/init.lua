@@ -35,8 +35,8 @@ return {
         "yaml-language-server",
         "json-lsp",
         "ansible-language-server",
-        "python-lsp-server",
-        "pylint",
+        "ruff",
+        "black"
       },
     },
   },
