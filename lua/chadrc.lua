@@ -5,7 +5,7 @@
 local M = {}
 
 M.ui = {
-	theme = "github_dark",
+	theme = "chadracula",
   transparency = true,
   statusline = {
       theme = "default",
