@@ -31,6 +31,7 @@ require("lazy").setup({
 
 
 vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 
 -- load theme
 dofile(vim.g.base46_cache .. "defaults")
