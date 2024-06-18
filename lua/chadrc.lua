@@ -5,7 +5,7 @@
 local M = {}
 
 M.ui = {
-	theme = "one_light",
+	theme = "ayu_light",
   transparency = false,
   statusline = {
       theme = "default",
