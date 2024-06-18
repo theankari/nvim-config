@@ -5,8 +5,8 @@
 local M = {}
 
 M.ui = {
-	theme = "chadracula",
-  transparency = true,
+	theme = "one_light",
+  transparency = false,
   statusline = {
       theme = "default",
       separator_style = "arrow",
