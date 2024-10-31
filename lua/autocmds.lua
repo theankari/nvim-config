@@ -18,6 +18,8 @@ autocmd("FileType", {
   group = vim.api.nvim_create_augroup("FixTerraformCommentString", { clear = true }),
   callback = function(ev)
     vim.bo[ev.buf].commentstring = "# %s"
+    vim.bo[ev.buf].tabstop = 2
+    vim.bo[ev.buf].shiftwidth = 2
   end,
   pattern = { "terraform", "hcl" },
 })
