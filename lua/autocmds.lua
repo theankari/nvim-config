@@ -23,3 +23,4 @@ autocmd("FileType", {
   end,
   pattern = { "terraform", "hcl" },
 })
+

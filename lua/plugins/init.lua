@@ -9,7 +9,7 @@ return {
   { -- This needs to be loaded before the lspserver
     "towolf/vim-helm",
     lazy = false,
-    ft = "helm"
+    ft = "helm",
   },
   {
     "neovim/nvim-lspconfig",
@@ -36,7 +36,7 @@ return {
         "json-lsp",
         "ansible-language-server",
         "ruff",
-        "black"
+        "black",
       },
     },
   },
@@ -64,5 +64,17 @@ return {
         "python",
       },
     },
+  },
+  {
+    "Exafunction/codeium.nvim",
+    lazy = true,
+    event = "InsertEnter",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
+    config = function()
+      require("codeium").setup {}
+    end,
   },
 }

@@ -11,7 +11,7 @@ map("i", "jk", "<ESC>")
 
 map("n", "<A-t>", function()
     require("base46").toggle_transparency()
-    require("base46").toggle_theme()
+    require("base46").toggle_theme( "ayu_light", "ayu_light" )
 end, { desc = "Toggle transparecy"})
 
 map("n", "<leader>gi", ":LazyGit<CR>", { desc = "Open LazyGit" })
