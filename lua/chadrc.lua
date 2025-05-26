@@ -5,9 +5,7 @@
 local M = {}
 
 M.ui = {
-  theme = "onedark",
   transparency = false,
-  theme_toggle = {"onedark", "one_light"},
   statusline = {
       theme = "default",
       separator_style = "arrow",
@@ -17,6 +15,12 @@ M.ui = {
 		Comment = { italic = true },
 		["@comment"] = { italic = true },
 	},
+}
+
+M.base46 = {
+  theme = "onedark",
+  transparency = false,
+  theme_toggle = {"onedark", "one_light"},
 }
 
 return M
