@@ -5,7 +5,6 @@
 local M = {}
 
 M.ui = {
-  transparency = false,
   statusline = {
       theme = "default",
       separator_style = "arrow",
@@ -18,7 +17,7 @@ M.ui = {
 }
 
 M.base46 = {
-  theme = "onedark",
+  theme = "one_light",
   transparency = false,
   theme_toggle = {"onedark", "one_light"},
 }
