@@ -13,7 +13,7 @@ local options = {
     terraform = { "terraform_fmt" },
     tf = { "terraform_fmt" },
     tfvars = { "terraform_fmt" },
-    python = { "black" },
+    python = { "ruff" },
     ["terraform-vars"] = { "terraform_fmt" },
   },
 

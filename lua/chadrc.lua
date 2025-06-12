@@ -17,7 +17,7 @@ M.ui = {
 }
 
 M.base46 = {
-  theme = "one_light",
+  theme = "onedark",
   transparency = false,
   theme_toggle = {"onedark", "one_light"},
 }
