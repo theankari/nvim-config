@@ -1,7 +1,9 @@
 return {
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
+    -- Load before write so the format_on_save autocmd is registered in time.
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
     config = function()
       require "configs.conform"
     end,
@@ -19,76 +21,75 @@ return {
     end,
   },
   {
-    "github/copilot.vim",
-    lazy = false,
-    config = function()
-      -- Mapping tab is already used by NvChad
-      -- vim.g.copilot_no_tab_map = true;
-      -- vim.g.copilot_assume_mapped = true;
-      -- vim.g.copilot_tab_fallback = "";
-      -- The mapping is set to other key, see custom/lua/mappings
-      -- or run <leader>ch to see copilot mapping section
-    end,
-  },
-  {
     "williamboman/mason.nvim",
     opts = {
       ensure_installed = {
+        -- language servers
         "terraform-ls",
         "lua-language-server",
-        "stylua",
         "css-lsp",
         "gopls",
         "html-lsp",
         "typescript-language-server",
-        "prettier",
-        "tflint",
         "helm-ls",
         "yaml-language-server",
         "json-lsp",
         "ansible-language-server",
+        "jdtls",
+        -- formatters
+        "stylua",
+        "prettier",
+        -- linters
+        "tflint",
         "ruff",
-        "black",
+        "golangci-lint",
+        "eslint_d",
+        "yamllint",
+        "hadolint",
+        -- debug adapters
+        "delve",
+        "java-debug-adapter",
+        "java-test",
+        "js-debug-adapter",
+        -- treesitter needs the CLI to compile parsers on the `main` branch
+        "tree-sitter-cli",
       },
     },
   },
   {
+    -- nvim-treesitter rewrote its plugin: the old `master` branch is frozen and
+    -- errors on nvim 0.12, so we track `main` and drive highlighting through the
+    -- built-in 0.12 highlighter via a FileType autocmd (the `main` branch no longer
+    -- enables highlighting itself or accepts `ensure_installed`).
     "nvim-treesitter/nvim-treesitter",
-    enabled = false,
-    opts = {
-      ensure_installed = {
-        "vim",
-        "lua",
-        "html",
-        "css",
-        "javascript",
-        "typescript",
-        "tsx",
-        "c",
-        "yaml",
-        "helm",
-        "gotmpl",
-        "json",
-        "markdown",
-        "markdown_inline",
-        "terraform",
-        "go",
-        "python",
-      },
-    },
-  },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "main",
     lazy = false,
-    dependencies = {
-      { "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
-      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
-    },
-    build = "make tiktoken", -- Only on MacOS or Linux
-    opts = {
-      -- See Configuration section for options
-    },
-    -- See Commands section for default commands if you want to lazy load on them
+    build = ":TSUpdate",
+    config = function()
+      local parsers = {
+        "vim", "vimdoc", "lua", "luadoc", "c",
+        "html", "css", "javascript", "typescript", "tsx",
+        "json", "jsonc", "yaml", "toml", "markdown", "markdown_inline",
+        "bash", "regex", "diff", "git_config", "gitcommit",
+        "go", "gomod", "gosum", "gowork", "gotmpl",
+        "java", "python",
+        "terraform", "hcl", "dockerfile", "make",
+      }
+
+      -- Install any missing parsers (async, no-op for already-installed ones).
+      local ok, ts = pcall(require, "nvim-treesitter")
+      if ok and ts.install then
+        ts.install(parsers)
+      end
+
+      -- Enable the built-in treesitter highlighter per buffer.
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("TreesitterHighlight", { clear = true }),
+        callback = function(ev)
+          pcall(vim.treesitter.start, ev.buf)
+        end,
+      })
+    end,
   },
   {
     "jake-stewart/multicursor.nvim",
@@ -171,6 +172,42 @@ return {
     "ramilito/kubectl.nvim",
     config = function()
       require("kubectl").setup()
+    end,
+  },
+  {
+    -- Java LSP. jdtls needs special launch handling, so it is set up per-buffer
+    -- from ftplugin/java.lua rather than through the lspconfig loop.
+    "mfussenegger/nvim-jdtls",
+    ft = "java",
+  },
+  {
+    "folke/trouble.nvim",
+    cmd = { "Trouble" },
+    opts = {},
+    keys = {
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Trouble diagnostics (workspace)" },
+      { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Trouble diagnostics (buffer)" },
+      { "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Trouble symbols" },
+      { "<leader>xq", "<cmd>Trouble qflist toggle<cr>", desc = "Trouble quickfix list" },
+      { "<leader>xl", "<cmd>Trouble loclist toggle<cr>", desc = "Trouble location list" },
+    },
+  },
+  {
+    "folke/todo-comments.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
+  },
+  {
+    "j-hui/fidget.nvim",
+    event = "LspAttach",
+    opts = {},
+  },
+  {
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+    config = function()
+      require "configs.lint"
     end,
   },
 }

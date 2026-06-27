@@ -12,8 +12,6 @@ for i = 1, 9, 1 do
   end)
 end
 
-vim.cmd("syntax off")
-
 autocmd("FileType", {
   group = vim.api.nvim_create_augroup("FixTerraformCommentString", { clear = true }),
   callback = function(ev)

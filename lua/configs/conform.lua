@@ -13,8 +13,12 @@ local options = {
     terraform = { "terraform_fmt" },
     tf = { "terraform_fmt" },
     tfvars = { "terraform_fmt" },
-    python = { "ruff" },
+    python = { "ruff_organize_imports", "ruff_format" },
     ["terraform-vars"] = { "terraform_fmt" },
+    yaml = { "prettier" },
+    json = { "prettier" },
+    jsonc = { "prettier" },
+    markdown = { "prettier" },
   },
 
   format_on_save = {
