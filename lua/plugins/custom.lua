@@ -3,7 +3,7 @@ local plugins = {
 
   {
     "kdheepak/lazygit.nvim",
-    lazy = false,
+    cmd = "LazyGit",
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
@@ -13,7 +13,6 @@ local plugins = {
   },
   {
     "christoomey/vim-tmux-navigator",
-    lazy = false,
     cmd = {
       "TmuxNavigateLeft",
       "TmuxNavigateDown",
@@ -89,12 +88,9 @@ local plugins = {
   {
     "kylechui/nvim-surround",
     version = "*",
-    -- event = "VeryLazy",
-    lazy = true,
+    event = "VeryLazy",
     config = function()
-      require("nvim-surround").setup {
-        -- Configuration here, or leave empty to use defaults
-      }
+      require("nvim-surround").setup {}
     end,
   },
 }

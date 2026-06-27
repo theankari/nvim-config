@@ -29,6 +29,7 @@ return {
         "lua-language-server",
         "css-lsp",
         "gopls",
+        "basedpyright",
         "html-lsp",
         "typescript-language-server",
         "helm-ls",
@@ -39,6 +40,8 @@ return {
         -- formatters
         "stylua",
         "prettier",
+        "shfmt",
+        "goimports-reviser",
         -- linters
         "tflint",
         "ruff",
