@@ -1,34 +1,18 @@
-local nvlsp = require "nvchad.configs.lspconfig"
-local on_init = nvlsp.on_init
-local capabilities = nvlsp.capabilities
-
-local lspconfig = require "lspconfig"
-
--- Wrap NvChad's on_attach to also turn on inlay hints where the server supports them.
-local function on_attach(client, bufnr)
-  nvlsp.on_attach(client, bufnr)
-
-  if client.supports_method and client:supports_method "textDocument/inlayHint" then
-    pcall(vim.lsp.inlay_hint.enable, true, { bufnr = bufnr })
-  end
-end
+-- Enable inlay hints for servers that support them.
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client:supports_method "textDocument/inlayHint" then
+      pcall(vim.lsp.inlay_hint.enable, true, { bufnr = args.buf })
+    end
+  end,
+})
 
 -- Servers that work fine with defaults.
-local servers = { "html", "cssls", "ts_ls", "terraformls", "jsonls", "ansiblels", "yamlls", "ruff" }
+vim.lsp.enable { "html", "cssls", "ts_ls", "terraformls", "jsonls", "ansiblels", "yamlls", "ruff" }
 
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = on_attach,
-    on_init = on_init,
-    capabilities = capabilities,
-  }
-end
-
--- Go: richer analyses + inlay hints + staticcheck.
-lspconfig.gopls.setup {
-  on_attach = on_attach,
-  on_init = on_init,
-  capabilities = capabilities,
+-- Go: richer analyses + staticcheck.
+vim.lsp.config("gopls", {
   settings = {
     gopls = {
       gofumpt = true,
@@ -53,12 +37,10 @@ lspconfig.gopls.setup {
       },
     },
   },
-}
+})
+vim.lsp.enable "gopls"
 
-lspconfig.basedpyright.setup {
-  on_attach = on_attach,
-  on_init = on_init,
-  capabilities = capabilities,
+vim.lsp.config("basedpyright", {
   settings = {
     basedpyright = {
       analysis = {
@@ -66,9 +48,10 @@ lspconfig.basedpyright.setup {
       },
     },
   },
-}
+})
+vim.lsp.enable "basedpyright"
 
-lspconfig.helm_ls.setup {
+vim.lsp.config("helm_ls", {
   settings = {
     ["helm-ls"] = {
       yamlls = {
@@ -76,4 +59,5 @@ lspconfig.helm_ls.setup {
       },
     },
   },
-}
+})
+vim.lsp.enable "helm_ls"
